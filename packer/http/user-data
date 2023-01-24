@@ -1,0 +1,31 @@
+#cloud-config
+autoinstall:
+  version: 1
+  locale: en_US
+  keyboard:
+    layout: pt
+  refresh-installer:
+    update: yes
+  ssh:
+    install-server: true
+    allow-pw: true
+  packages:
+    - qemu-guest-agent
+  storage:
+    layout:
+      name: direct
+    swap:
+      size: 0
+  package_update: true
+  package_upgrade: true
+  user-data:
+    timezone: Europe/Lisbon
+    users:
+        - name: admin
+          passwd: $6$rounds=4096$aj/03ITQpTHo/Csr$TGSEsjIb4mfAJ085xTx3b6.OrLZrnMm5mPlV1sS8iF43cYDflL/SFv1HgJSYKbCNkFnIqTlOSseI8V8cgwKLW0
+          groups: [sudo]
+          lock-passwd: false
+          sudo: ALL=(ALL) NOPASSWD:ALL
+          shell: /bin/bash
+          ssh_authorized_keys:
+            - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIgVNmbR3I0pideU+lRKQabsyg28wmR+GlnepwAY+x/X jpinto@premium-minds.com
