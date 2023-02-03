@@ -29,3 +29,4 @@ autoinstall:
           shell: /bin/bash
           ssh_authorized_keys:
             - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIgVNmbR3I0pideU+lRKQabsyg28wmR+GlnepwAY+x/X jpinto@premium-minds.com
+            - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPAjMkMdBj8X+3Q5eUGmvoejBKuFyZJzeqUgTu7q+JZs pinto@barcodeu.com

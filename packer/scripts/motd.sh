@@ -2,7 +2,6 @@
 
 rm -f /etc/update-motd.d/00-header \
       /etc/update-motd.d/10-help-text \
-      /etc/update-motd.d/50-landscape-system \
       /etc/update-motd.d/50-motd-news \
       /etc/update-motd.d/95-hwe-eol
 
@@ -81,16 +80,11 @@ cat << EOF
            Name: $HOSTNAME
            Uptime: $UPTIME_DAYS days, $UPTIME_HOURS hours, $UPTIME_MINUTES minutes
            Distro: $DISTRO with $KERNEL
-
-           CPU Load: $CPU_LOAD_AVG
-           Free Memory: $AVAILABLE_MEMORY
-           Free Disk: $AVAILABLE_DISK
 EOF
 EOH
 
 cat <<'EOH' > /etc/update-motd.d/99-footer
 #!/bin/sh
-
 
 echo "%                                                                                                   %"
 echo "%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++%"
