@@ -1,9 +1,9 @@
 #!/bin/sh
 
-rm -f /etc/update-motd.d/00-header \
-      /etc/update-motd.d/10-help-text \
-      /etc/update-motd.d/50-motd-news \
-      /etc/update-motd.d/95-hwe-eol
+#rm -f /etc/update-motd.d/00-header \
+#      /etc/update-motd.d/10-help-text \
+#      /etc/update-motd.d/50-motd-news \
+#      /etc/update-motd.d/95-hwe-eol
 
 
 cat <<'EOH' > /etc/update-motd.d/00-header
@@ -98,4 +98,8 @@ chmod 755 /etc/update-motd.d/00-header
 chmod 755 /etc/update-motd.d/10-system-info
 chmod 755 /etc/update-motd.d/99-footer
 
+
+cat <<'EOF' > /etc/ssh/banner
+banner
+EOF
 
