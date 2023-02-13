@@ -4,4 +4,3 @@
     name: docker
     state: "restarted"
   ignore_errors: "{{ ansible_check_mode }}"
-  when: docker_service_manage | bool
