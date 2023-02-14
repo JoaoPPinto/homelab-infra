@@ -1,0 +1,3 @@
+# Proxmox user and token
+PM_API_TOKEN_ID="terraform-user@pve!mytoken"
+PM_API_TOKEN_SECRET="<uuid>"
