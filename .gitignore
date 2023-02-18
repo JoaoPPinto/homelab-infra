@@ -1,3 +1,5 @@
+*.env
+
 packer/*.pkrvars.hcl
 
 # Local .terraform directories
