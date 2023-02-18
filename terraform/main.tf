@@ -13,5 +13,9 @@ module "firefly-vm" {
     bridge = "vmbr0"
     model = "virtio"
   } ]
-  ipconfig = "ip=192.168.1.72/24,gw=192.168.1.1"
+  ipconfig = {
+    ip = "192.168.1.72"
+    gateway = "192.168.1.1"
+    cidr = "24"
+  }
 }
