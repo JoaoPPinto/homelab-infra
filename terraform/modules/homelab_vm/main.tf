@@ -45,7 +45,7 @@ resource "proxmox_vm_qemu" "vm_qemu" {
     }
   }
 
-  ipconfig0 = "ip=${var.ipconfig.ip}/{$var.ipconfig.cidr},gw=${var.ipconfig.gateway}"
+  ipconfig0 = "ip=${var.ipconfig.ip}/${var.ipconfig.cidr},gw=${var.ipconfig.gateway}"
 
   lifecycle {
     ignore_changes = [
