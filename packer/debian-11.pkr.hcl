@@ -91,6 +91,16 @@ build {
   name = "debian-11"
   sources = ["source.proxmox.debian-11"]
 
+  provisioner "shell" {
+    environment_vars = ["DEBIAN_FRONTEND=non-interactive"]
+    inline = [
+      "sudo apt-get -y install bash-completion curl net-tools python3 python3-pip vim wget",
+      "sudo apt -y autoremove --purge",
+      "sudo apt-get clean",
+      "sync"
+    ]
+  }
+
   provisioner "file" {
     source      = "files/99-pve.cfg"
     destination = "/etc/cloud/cloud.cfg.d/99-pve.cfg"
@@ -112,7 +122,8 @@ build {
       "rm -f /etc/machine-info",
       "rm -f /var/lib/dbus/machine-id",
       "journalctl --rotate",
-      "rm -rf /var/log/*.gz"
+      "rm -rf /var/log/*.gz",
+      "sync"
     ]
   }
  
