@@ -1,4 +1,9 @@
 ---
+- name: Gather facts
+  setup:
+    gather_subset:
+      - distribution
+
 - name: Ensure old versions of Docker are not installed.
   package:
     name:
@@ -87,6 +92,14 @@
     append: true
   with_items: 
     - "admin"
+  register: docker_group
 
 - name: Reset ssh connection to apply user changes.
   meta: reset_connection
+  when: docker_group.changed
+
+- name: Install python docker module
+  pip:
+    name: 
+      - docker
+      - docker-compose
