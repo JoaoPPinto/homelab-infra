@@ -94,7 +94,7 @@ build {
   provisioner "shell" {
     environment_vars = ["DEBIAN_FRONTEND=non-interactive"]
     inline = [
-      "sudo apt-get -y install bash-completion curl net-tools python3 python3-pip vim wget",
+      "sudo apt-get -y install bash-completion curl htop net-tools python3 python3-pip vim wget",
       "sudo apt -y autoremove --purge",
       "sudo apt-get clean",
       "sync"
