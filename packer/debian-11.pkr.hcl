@@ -10,7 +10,11 @@ variable "proxmox_auth_realm" {
   type = string
 }
 
-variable "proxmox_password" {
+variable "proxmox_token_name" {
+  type = string
+}
+
+variable "proxmox_token" {
   type = string
   sensitive = true
 }
@@ -30,8 +34,8 @@ variable "template_id" {
 source "proxmox" "debian-11" {
  
   proxmox_url = "https://${var.proxmox_url}:8006/api2/json"
-  username = "${var.proxmox_user}@${var.proxmox_auth_realm}"
-  password = "${var.proxmox_password}"
+  username = "${var.proxmox_user}@${var.proxmox_auth_realm}!${var.proxmox_token_name}"
+  token = "${var.proxmox_token}"
   insecure_skip_tls_verify = false
 
   node = "${var.proxmox_node}"
