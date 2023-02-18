@@ -1,0 +1,8 @@
+---
+dependencies:
+  - role: docker
+    become: true
+
+collections:
+  - community.general
+  - community.docker

@@ -1,0 +1,21 @@
+version: "3"
+
+volumes:
+  lldap_data:
+    driver: local
+
+services:
+  lldap:
+    image: nitnelave/lldap:stable
+    ports:
+      # For LDAP
+      - "3890:3890"
+      # For the web front-end
+      - "17170:17170"
+    volumes:
+      - "lldap_data:/data"
+    environment:
+      - TZ=Europe/Lisbon
+      - LLDAP_JWT_SECRET={{ lldap.jwt_secret }}
+      - LLDAP_LDAP_USER_PASS={{ lldap.admin_pass }}
+      - LLDAP_LDAP_BASE_DN={{ lldap.base_dn }}

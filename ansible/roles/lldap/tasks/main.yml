@@ -1,0 +1,21 @@
+---
+- name: Directory creation
+  become: true
+  file:
+    path: "{{ lldap.base_dir }}"
+    state: directory
+    mode: '0777'
+
+- name: Place Docker-Compose template
+  template:
+    src: "{{ role_path }}/templates/docker-compose.yaml.j2"
+    dest: "{{ lldap.base_dir }}/docker-compose.yaml"
+    owner: admin
+    mode: '0644'
+
+- name: Start LLDAP
+  community.docker.docker_compose:
+    project_src: "{{ lldap.base_dir }}"
+    pull: true
+    state: present
+

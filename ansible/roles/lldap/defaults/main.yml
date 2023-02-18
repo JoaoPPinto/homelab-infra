@@ -1,0 +1,4 @@
+---
+lldap:
+  base_dir: "/opt/lldap"
+  base_dn: "dc=fatska,dc=xyz"

@@ -1,0 +1,8 @@
+---
+- hosts: auth
+  roles:
+    - lldap
+  vars:
+    lldap:
+      jwt_secret: "{{ vault_lldap_jwt_secret }}"
+      admin_pass: "{{ vault_lldap_admin_pass }}"
