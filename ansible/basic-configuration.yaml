@@ -1,4 +1,4 @@
 ---
-- hosts: firefly
+- hosts: all
   roles:
     - basic-configuration
