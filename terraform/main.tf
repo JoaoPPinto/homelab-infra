@@ -1,9 +1,9 @@
-module "firefly-vm" {
+module "auth-vm" {
   source = "./modules/homelab_vm"
-  vm_name = "firefly-vm"
+  vm_name = "auth-vm"
   target_node = "arsenal"
   vm_template = "debian-11-template"
-  memory = 1024
+  memory = 512
   disk_config = [ {
     size = "7G"
     storage = "local-lvm"
