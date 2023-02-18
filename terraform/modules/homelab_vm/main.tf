@@ -2,7 +2,7 @@ terraform {
   required_providers {
     proxmox = {
       source = "telmate/proxmox"
-      version = "2.9.11"
+      version = "~>2.9.11"
     }
   }
 }
@@ -14,7 +14,7 @@ resource "proxmox_vm_qemu" "vm_qemu" {
   target_node = "${var.target_node}"
   clone = "${var.vm_template}"
   full_clone = "true"
-  oncreate = "false"
+  oncreate = "${var.start_vm}"
 
   agent = 1
   cores = "${var.core_count}"
@@ -45,7 +45,7 @@ resource "proxmox_vm_qemu" "vm_qemu" {
     }
   }
 
-  ipconfig0 = "${var.ipconfig}"
+  ipconfig0 = "ip=${var.ipconfig.ip}/{$var.ipconfig.cidr},gw=${var.ipconfig.gateway}"
 
   lifecycle {
     ignore_changes = [

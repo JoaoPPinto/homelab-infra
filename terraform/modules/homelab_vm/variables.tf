@@ -13,6 +13,12 @@ variable "vm_template" {
   type = string
 }
 
+variable "start_vm" {
+  description = "Start VM after creation"
+  type = bool
+  default = true
+}
+
 variable "core_count" {
   description = "VM Core Count"
   type = number
@@ -44,5 +50,11 @@ variable "network_config" {
 
 variable "ipconfig" {
   description = "VM IP Config"
-  type = string
+  type = object({
+    ip = string
+    gateway = string
+    cidr = string
+  })
 }
+
+
