@@ -118,9 +118,9 @@ build {
   provisioner "shell" {
     inline = [
       "rm -f /var/lib/systemd/random-seed",
-      "rm -f /etc/machine-id",
-      "rm -f /etc/machine-info",
-      "rm -f /var/lib/dbus/machine-id",
+      "truncate -s 0 /etc/machine-id",
+      "truncate -s 0 /etc/machine-info",
+      "truncate -s 0 /var/lib/dbus/machine-id",
       "journalctl --rotate",
       "rm -rf /var/log/*.gz",
       "sync"
