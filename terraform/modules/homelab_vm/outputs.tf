@@ -3,7 +3,7 @@ output "vm_name" {
 }
 
 output "dns" {
-    value = pihole_dns_record.vm_record.domain
+    value = pihole_dns_record.vm_main_dns_record.domain
 }
 
 output "vm_ip" {
