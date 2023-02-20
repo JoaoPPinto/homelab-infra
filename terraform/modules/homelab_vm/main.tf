@@ -1,15 +1,6 @@
-terraform {
-  required_providers {
-    proxmox = {
-      source = "telmate/proxmox"
-      version = "~>2.9.11"
-    }
-  }
-}
-
 resource "proxmox_vm_qemu" "vm_qemu" {
   count = 1
-  name = "${var.vm_name}"
+  name = "${var.vm_name}-vm"
 
   target_node = "${var.target_node}"
   clone = "${var.vm_template}"
@@ -49,7 +40,21 @@ resource "proxmox_vm_qemu" "vm_qemu" {
 
   lifecycle {
     ignore_changes = [
-      network
+      network,
+      desc
     ]
   }
+}
+
+
+resource "pihole_dns_record" "vm_main_dns_record" {
+  provider = pihole.main
+  domain  = "${var.vm_name}.${var.domain}"
+  ip      = "${var.ipconfig.ip}"
+}
+
+resource "pihole_dns_record" "vm_backup_dns_record" {
+  provider = pihole.backup
+  domain  = "${var.vm_name}.${var.domain}"
+  ip      = "${var.ipconfig.ip}"
 }

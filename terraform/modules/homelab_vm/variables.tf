@@ -1,5 +1,10 @@
 variable "vm_name" {
-  description = "VM Name"
+  description = "VM Name (Automatically appended the suffix -vm)"
+  type = string
+}
+
+variable "domain" {
+  description = "Domain to create the DNS Records on"
   type = string
 }
 
