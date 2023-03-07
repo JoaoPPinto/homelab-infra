@@ -1,0 +1,12 @@
+---
+firefly:
+  base_dir: "/opt/firefly"
+  version: "6.0.0"
+  port: 8080
+  fidi_client: "fidiclient"
+  db:
+    user: "firefly"
+    name: "firefly"
+    version: "15"
+  email:
+    from: "firefly@fatska.xyz"

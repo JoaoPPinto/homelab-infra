@@ -1,0 +1,36 @@
+version: '3.3'
+
+services:
+  app:
+    image: fireflyiii/core:version-{{ firefly.version }}
+    restart: always
+    volumes:
+      - firefly_iii_upload:/var/www/html/storage/upload
+    env_file: .env
+    ports:
+      - {{ firefly.port }}:{{ firefly.port }}
+    depends_on:
+      - db
+  db:
+    image: postgres:{{ firefly.db.version }}
+    hostname: fireflyiiidb
+    restart: always
+    environment:
+      - POSTGRES_USER={{ firefly.db.user }}
+      - POSTGRES_PASSWORD={{ firefly.db.password }}
+      - POSTGRES_DB={{ firefly.db.name }}
+    volumes:
+      - firefly_iii_db:/var/lib/mysql
+  dataimporter:
+    image: fireflyiii/data-importer:latest
+    hostname: data
+    restart: always
+    ports:
+      - 8081:8080
+    depends_on:
+      - app
+    env_file: .fidi.env
+
+volumes:
+   firefly_iii_upload:
+   firefly_iii_db:

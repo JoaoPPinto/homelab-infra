@@ -1,0 +1,14 @@
+---
+- hosts: budget
+  roles:
+    - firefly
+  vars:
+    firefly:
+      app_key: "{{ vault_firefly_app_key }}"
+      db:
+        password: "{{ vault_firefly_db_password }}"
+      email:
+        password: "{{ vault_firefly_email_apikey }}"
+      nordigen:
+        id: "{{ vault_firefly_nordigen_id }}"
+        key: "{{ vault_firefly_nordigen_key }}"

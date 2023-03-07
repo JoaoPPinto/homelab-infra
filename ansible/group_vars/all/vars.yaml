@@ -1,0 +1,8 @@
+base_domain: "fatska.xyz"
+admin_email: "admin@{{ base_domain }}"
+timezone: "Europe/Lisbon"
+
+smtp:
+  host: "smtp.sendgrid.net"
+  port: 587
+  user: "apikey"
