@@ -49,12 +49,12 @@ resource "proxmox_vm_qemu" "vm_qemu" {
 
 resource "pihole_dns_record" "vm_main_dns_record" {
   provider = pihole.main
-  domain  = "${var.vm_name}.${var.domain}"
+  domain  = "${var.vm_name}.vm.${var.domain}"
   ip      = "${var.ipconfig.ip}"
 }
 
 resource "pihole_dns_record" "vm_backup_dns_record" {
   provider = pihole.backup
-  domain  = "${var.vm_name}.${var.domain}"
+  domain  = "${var.vm_name}.vm.${var.domain}"
   ip      = "${var.ipconfig.ip}"
 }
