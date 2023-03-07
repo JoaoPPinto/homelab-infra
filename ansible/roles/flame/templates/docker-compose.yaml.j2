@@ -1,0 +1,16 @@
+version: '3.6'
+
+services:
+  flame:
+    image: pawelmalak/flame:{{ flame.version }}
+    container_name: flame
+    volumes:
+      - flame_data:/app/data
+    ports:
+      - {{ flame.port }}:{{ flame.port }}
+    environment:
+      - PASSWORD={{ flame.password }}
+    restart: unless-stopped
+
+volumes:
+  flame_data:

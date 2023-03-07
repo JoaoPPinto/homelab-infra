@@ -1,0 +1,5 @@
+---
+flame:
+  base_dir: "/opt/flame"
+  version: "2.3.0"
+  port: 5005
