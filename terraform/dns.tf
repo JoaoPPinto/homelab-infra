@@ -1,10 +1,22 @@
-module "my_dns_test" {
-  source = "./modules/homelab_dns_record"
-  domain = "test.fatska.xyz"
-  ip = "192.168.1.52"
+# firefly DNS
+module "firefly_dns" {
+  source  = "./modules/homelab_cname_record"
+  domain  = "firefly.fatska.xyz"
+  target  = "proxy.fatska.xyz"
 
   providers = {
-    pihole.main = pihole
+    pihole.main   = pihole
+    pihole.backup = pihole.zero
+   }
+}
+
+module "fidi_dns" {
+  source  = "./modules/homelab_cname_record"
+  domain  = "fidi.fatska.xyz"
+  target  = "proxy.fatska.xyz"
+
+  providers = {
+    pihole.main   = pihole
     pihole.backup = pihole.zero
    }
 }

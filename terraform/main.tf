@@ -1,10 +1,10 @@
-module "firefly_vm" {
+module "budget_vm" {
   source = "./modules/homelab_vm"
-  vm_name = "firefly"
+  vm_name = "budget"
   domain = var.base_domain
   target_node = var.default_pve_node
   vm_template = "debian-11-template"
-  memory = 768
+  memory = 1024
   disk_config = [ {
     size = "7G"
     storage = "local-lvm"
