@@ -21,6 +21,18 @@ module "fidi_dns" {
    }
 }
 
+# Apps DNS
+module "apps_dns" {
+  source  = "./modules/homelab_cname_record"
+  domain  = "apps.fatska.xyz"
+  target  = "proxy.fatska.xyz"
+
+  providers = {
+    pihole.main   = pihole
+    pihole.backup = pihole.zero
+   }
+}
+
 # Raspberrys
 module "ocelot_dns" {
   source  = "./modules/homelab_dns_record"
