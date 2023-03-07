@@ -1,0 +1,7 @@
+---
+- hosts: dashboard
+  roles:
+    - flame
+  vars:
+    flame:
+      password: "{{ vault_flame_admin_password }}"
