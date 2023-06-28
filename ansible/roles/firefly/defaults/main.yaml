@@ -1,7 +1,7 @@
 ---
 firefly:
   base_dir: "/opt/firefly"
-  version: "6.0.0"
+  version: "6.0.16"
   port: 8080
   fidi_client: "fidiclient"
   db:
