@@ -24,6 +24,11 @@ variable "start_vm" {
   default = true
 }
 
+variable "on_boot" {
+  type = bool
+  default = false
+}
+
 variable "core_count" {
   description = "VM Core Count"
   type = number

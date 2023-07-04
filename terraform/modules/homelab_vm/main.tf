@@ -6,6 +6,7 @@ resource "proxmox_vm_qemu" "vm_qemu" {
   clone = "${var.vm_template}"
   full_clone = "true"
   oncreate = "${var.start_vm}"
+  onboot = "${var.on_boot}"
 
   agent = 1
   cores = "${var.core_count}"
