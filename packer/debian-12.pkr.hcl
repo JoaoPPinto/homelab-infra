@@ -31,7 +31,7 @@ variable "template_id" {
   type = string
 }
 
-source "proxmox" "debian-11" {
+source "proxmox-iso" "debian-12" {
  
   proxmox_url = "https://${var.proxmox_url}:8006/api2/json"
   username = "${var.proxmox_user}@${var.proxmox_auth_realm}!${var.proxmox_token_name}"
@@ -40,10 +40,10 @@ source "proxmox" "debian-11" {
 
   node = "${var.proxmox_node}"
   vm_id = "${var.template_id}"
-  vm_name = "debian-11-template"
-  template_description = "Debian 11 Bullseye Image Template"
+  vm_name = "debian-12-template"
+  template_description = "Debian 12 Bookworm Image Template"
 
-  iso_file = "local:iso/debian-11.6.0-amd64-netinst.iso"
+  iso_file = "local:iso/debian-12.0.0-amd64-netinst.iso"
   unmount_iso = true
 
   qemu_agent = true
@@ -52,7 +52,6 @@ source "proxmox" "debian-11" {
   disks {
     disk_size = "5G"
     storage_pool = "local-lvm"
-    storage_pool_type = "lvm"
     type = "scsi"
   }
   cores = "1"
@@ -88,8 +87,8 @@ source "proxmox" "debian-11" {
 }
 
 build {
-  name = "debian-11"
-  sources = ["source.proxmox.debian-11"]
+  name = "debian-12"
+  sources = ["source.proxmox-iso.debian-12"]
 
   provisioner "shell" {
     environment_vars = ["DEBIAN_FRONTEND=non-interactive"]
