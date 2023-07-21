@@ -4,34 +4,7 @@
     gather_subset:
       - distribution
 
-- name: Ensure old versions of Docker are not installed.
-  package:
-    name:
-      - docker
-      - docker-engine
-    state: absent
-
-- name: Ensure dependencies are installed.
-  apt:
-    name:
-      - curl
-      - ca-certificates
-      - gnupg
-      - lsb-release
-    state: present
-
-- name: Add Docker apt key.
-  ansible.builtin.get_url:
-    url: "{{ docker_apt_gpg_key }}"
-    dest: /etc/apt/trusted.gpg.d/docker.asc
-    mode: '0644'
-    force: true
-
-- name: Add Docker repository.
-  apt_repository:
-    repo: "{{ docker_apt_repository }}"
-    state: present
-    update_cache: true
+- include_tasks: setup.yaml
 
 - name: Install Docker Package
   package:
@@ -42,7 +15,8 @@
       - "docker-buildx-plugin"
       - "docker-compose-plugin"
       - "containerd.io"
-    state: present
+    state: latest
+  ignore_errors: "{{ ansible_check_mode }}"
   notify: restart docker
 
 - name: Ensure Docker is started and enabled at boot
@@ -54,44 +28,12 @@
 - name: Ensure handlers are notified now to avoid firewall conflicts
   meta: flush_handlers
 
-- name: Check current docker-compose version.
-  command: "/usr/local/bin/docker-compose --version"
-  register: docker_compose_vsn
-  check_mode: false
-  changed_when: false
-  failed_when: false
-
-- set_fact:
-    docker_compose_current_version: "{{ docker_compose_vsn.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
-  when: >
-    docker_compose_vsn.stdout is defined
-    and (docker_compose_vsn.stdout | length > 0)
-
-- name: Delete existing docker-compose version if it's different.
-  file:
-    path: "/usr/local/bin/docker-compose"
-    state: absent
-  when: >
-    docker_compose_current_version is defined
-    and (docker_compose_version | regex_replace('v', '')) not in docker_compose_current_version
-
-- name: Install Docker Compose (if configured).
-  get_url:
-    url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-linux-{{ ansible_architecture }}"
-    dest: "/usr/local/bin/docker-compose"
-    mode: 0755
-  when: >
-    (docker_compose_current_version is not defined)
-    or (docker_compose_current_version | length == 0)
-    or (docker_compose_current_version is version((docker_compose_version | regex_replace('v', '')), '<'))
-
 - name: Ensure docker users are added to the docker group.
   user:
     name: "{{ item }}"
     groups: docker
     append: true
-  with_items: 
-    - "admin"
+  loop: "{{ docker_group_users }}"
   register: docker_group
 
 - name: Reset ssh connection to apply user changes.
