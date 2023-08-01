@@ -1,5 +1,5 @@
 ---
-- hosts: budget
+- hosts: firefly
   roles:
     - firefly
   vars:
@@ -12,3 +12,4 @@
       nordigen:
         id: "{{ vault_firefly_nordigen_id }}"
         key: "{{ vault_firefly_nordigen_key }}"
+      access_token: "{{ vault_firefly_access_token }}"
