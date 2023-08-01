@@ -41,7 +41,6 @@
   when: docker_group.changed
 
 - name: Install python docker module
-  pip:
+  apt:
     name: 
-      - docker
-      - docker-compose
+      - python3-docker
