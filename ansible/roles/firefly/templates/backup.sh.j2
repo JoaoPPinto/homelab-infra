@@ -1,0 +1,32 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+FILENAME="firefly-$(date +\%Y\%m\%d_\%H\%M\%S).tar.gz"
+
+echo "Creating temp dir"
+BACKUP_DIR=$(mktemp -d -p $DIR)
+WORK_DIR=$BACKUP_DIR/work
+OUTPUT_DIR=$BACKUP_DIR/output
+mkdir $WORK_DIR $OUTPUT_DIR $WORK_DIR/upload
+
+echo "Copying firefly configs"
+cp $DIR/.env $WORK_DIR/.env
+cp $DIR/.fidi.env $WORK_DIR/.fidi.env
+cp $DIR/docker-compose.yaml $WORK_DIR/docker-compose.yml
+
+echo "Backing up database"
+docker exec -i firefly-db-1 /bin/bash -c "PGPASSWORD={{ firefly.db.password }} pg_dump --username firefly --format=custom firefly" > $WORK_DIR/firefly.dump
+
+echo "Backing up upload volume"
+docker run --rm -v "firefly_firefly_iii_upload:/tmp" -v "$WORK_DIR/upload:/backup" bash bash -c "cp -r /tmp/. /backup; rm /backup/.gitignore"
+
+echo "Creating archive"
+tar czf $OUTPUT_DIR/$FILENAME --directory=$WORK_DIR .
+
+echo "Uploading Archive"
+AWS_ACCESS_KEY_ID={{ minio.access_key }} AWS_SECRET_ACCESS_KEY={{ minio.access_secret }} aws --endpoint-url https://s3.fatska.xyz s3 mv $OUTPUT_DIR/$FILENAME s3://firefly-backups
+
+echo "cleaning up"
+rm -rf $BACKUP_DIR

@@ -13,3 +13,6 @@
         id: "{{ vault_firefly_nordigen_id }}"
         key: "{{ vault_firefly_nordigen_key }}"
       access_token: "{{ vault_firefly_access_token }}"
+    minio:
+      access_key: "{{ vault_minio_backups_access_key }}"
+      access_secret: "{{ vault_minio_backups_access_secret }}"

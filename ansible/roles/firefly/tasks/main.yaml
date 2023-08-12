@@ -27,8 +27,26 @@
     owner: admin
     mode: '0644'
 
-- name: Start Firefly-III
-  community.docker.docker_compose:
-    project_src: "{{ firefly.base_dir }}"
-    pull: true
-    state: present
+#- name: Start Firefly-III
+#  community.docker.docker_compose:
+#    project_src: "{{ firefly.base_dir }}"
+#    pull: true
+#    state: present
+
+- name: Template Backup Script
+  template:
+    src: "{{ role_path }}/templates/backup.sh.j2"
+    dest: "{{ firefly.base_dir }}/backup.sh"
+    owner: admin
+    mode: '0755'
+
+- name: Template backup crontab
+  template:
+    src: "{{ role_path }}/templates/backup-firefly-cron.j2"
+    dest: "/etc/cron.d/backup-firefly"
+
+- name: Ensure logs directory exists
+  file:
+    path: "/var/log/backup"
+    state: directory
+    mode: '0777'
