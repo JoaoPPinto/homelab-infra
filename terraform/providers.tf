@@ -2,11 +2,11 @@ terraform {
   required_providers {
     proxmox = {
       source = "telmate/proxmox"
-      version = "2.9.11"
+      version = "3.0.1-rc3"
     }
     pihole = {
       source = "ryanwholey/pihole"
-      version = "0.0.12"
+      version = "0.2.0"
     }
   }
 }
@@ -16,6 +16,7 @@ provider "proxmox" {
 }
 
 provider "pihole" {
+  alias = "ocelot"
   url = "https://pihole.ocelot.fatska.xyz"
   api_token = var.ocelot_api_token
 }

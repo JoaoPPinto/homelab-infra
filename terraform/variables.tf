@@ -3,11 +3,6 @@ variable "base_domain" {
   type = string
 }
 
-variable "default_pve_node" {
-  description = "Default Proxmox Node"
-  type = string
-}
-
 variable "ocelot_api_token" {
   type = string
 }

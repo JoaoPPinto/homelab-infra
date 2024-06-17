@@ -1,0 +1,90 @@
+server {
+
+    root /var/www/html;
+
+    # Add index.php to the list if you are using PHP
+    index pihole/index.php index.php index.html;
+
+    server_name {{ pihole_ocelot_domain }};
+
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+        fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+        fastcgi_param FQDN true;
+    }
+
+    location /*.js {
+        index pihole/index.js;
+    }
+
+    location /admin {
+        root /var/www/html;
+        index index.php index.html index.htm;
+    }
+	
+    location = / {
+        return 301 /admin/;
+    }	
+	
+    location ~ /\.ht {
+        deny all;
+    }
+
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+
+    ssl_certificate /etc/letsencrypt/live/{{ pihole_ocelot_domain }}/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/{{ pihole_ocelot_domain }}/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+server {
+    if ($host = {{ pihole_ocelot_domain }}) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    listen 80;
+    listen [::]:80;
+
+    server_name {{ pihole_ocelot_domain }};
+    return 404; # managed by Certbot
+}
+
+
+
+server {
+    server_name {{ pihole_zero_domain }};
+
+    location = / {
+        return 301 /admin;
+    }
+
+    location /admin {
+        proxy_pass http://{{ pihole_zero_host }}/admin/;
+    }
+
+    listen [::]:443 ssl; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/{{ pihole_zero_domain }}/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/{{ pihole_zero_domain }}/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+
+
+
+
+server {
+    if ($host = {{ pihole_zero_domain }}) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    server_name {{ pihole_zero_domain }};
+    listen 80;
+    listen [::]:80;
+    return 404; # managed by Certbot
+}

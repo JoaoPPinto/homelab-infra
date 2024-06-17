@@ -1,38 +1,3 @@
-# firefly DNS
-module "firefly_dns" {
-  source  = "./modules/homelab_cname_record"
-  domain  = "firefly.fatska.xyz"
-  target  = "proxy.fatska.xyz"
-
-  providers = {
-    pihole.main   = pihole
-    pihole.backup = pihole.zero
-   }
-}
-
-module "fidi_dns" {
-  source  = "./modules/homelab_cname_record"
-  domain  = "fidi.fatska.xyz"
-  target  = "proxy.fatska.xyz"
-
-  providers = {
-    pihole.main   = pihole
-    pihole.backup = pihole.zero
-   }
-}
-
-# Apps DNS
-module "apps_dns" {
-  source  = "./modules/homelab_cname_record"
-  domain  = "apps.fatska.xyz"
-  target  = "proxy.fatska.xyz"
-
-  providers = {
-    pihole.main   = pihole
-    pihole.backup = pihole.zero
-   }
-}
-
 # Raspberrys
 module "ocelot_dns" {
   source  = "./modules/homelab_dns_record"
@@ -63,19 +28,19 @@ module "proxy_dns" {
   target  = "ocelot.fatska.xyz"
 
   providers = {
-    pihole.main   = pihole
+    pihole.main   = pihole.ocelot
     pihole.backup = pihole.zero
    }
 }
 
-# Services
+# Pihole
 module "pihole_ocelot_dns" {
   source  = "./modules/homelab_cname_record"
   domain  = "pihole.ocelot.fatska.xyz"
   target  = "proxy.fatska.xyz"
 
   providers = {
-    pihole.main   = pihole
+    pihole.main   = pihole.ocelot
     pihole.backup = pihole.zero
    }
 }
@@ -86,7 +51,7 @@ module "pihole_zero_dns" {
   target  = "proxy.fatska.xyz"
 
   providers = {
-    pihole.main   = pihole
+    pihole.main   = pihole.ocelot
     pihole.backup = pihole.zero
    }
 }
@@ -98,7 +63,7 @@ module "arsenal_dns" {
   ip      = "192.168.1.50"
 
   providers = {
-    pihole.main   = pihole
+    pihole.main   = pihole.ocelot
     pihole.backup = pihole.zero
    }
 }

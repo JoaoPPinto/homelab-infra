@@ -1,0 +1,5 @@
+---
+- hosts: ocelot
+  become: true
+  roles:
+    - proxy
