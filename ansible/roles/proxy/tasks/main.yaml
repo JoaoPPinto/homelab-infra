@@ -1,0 +1,33 @@
+---
+- name: Ensure NGINX is installed
+  apt:
+    name: nginx
+    state: present
+
+- name: Template sites available
+  template:
+    src: "{{ item.src }}"
+    dest: "/etc/nginx/sites-available/{{ item.dest }}"
+    owner: root
+    mode: '0644'
+    #validate: bash -c 'echo "events { worker_connections 2; } http { include %s; }" > /tmp/nginx.conf; nginx -T -c /tmp/nginx.conf; ec=$?; rm -f /tmp/nginx.conf; exit $ec'
+  loop:
+    - { src: "pihole.j2", dest: "pihole" }
+
+- name: Create sites enabled symlinks
+  file:
+    src: '/etc/nginx/sites-available/{{ item }}'
+    dest: '/etc/nginx/sites-enabled/{{ item }}'
+    owner: root
+    state: link
+  loop:
+    - 'pihole'
+
+- name: Test NGINX configuration
+  command: nginx -t
+  changed_when: false
+
+- name: Restart the NGINX systemd unit
+  systemd_service:
+    name: nginx
+    state: restarted
