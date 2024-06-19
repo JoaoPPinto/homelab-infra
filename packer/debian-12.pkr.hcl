@@ -14,7 +14,7 @@ source "proxmox-iso" "debian-12" {
   vm_name = "template-debian-12"
   template_description = "Debian 12 Bookworm Image Template -- Created: ${formatdate("YYYY-MM-DD hh:mm:ss ZZZ", timestamp())}"
 
-  iso_file = "local:iso/debian-12.0.0-amd64-netinst.iso"
+  iso_file = "local:iso/debian-12.5.0-amd64-netinst.iso"
   unmount_iso = true
 
   qemu_agent = true
