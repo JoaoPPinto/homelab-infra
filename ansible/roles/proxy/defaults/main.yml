@@ -1,4 +1,10 @@
 ---
+vhost_list: [ 'pihole', 'minio' ]
+
 pihole_ocelot_domain: "pihole.ocelot.{{ base_domain }}"
 pihole_zero_host: "192.168.1.13"
 pihole_zero_domain: "pihole.zero.{{ base_domain }}"
+
+minio_s3_domain: "s3.{{ base_domain }}"
+minio_console_domain: "minio.{{ base_domain }}"
+minio_host: "192.168.1.30"

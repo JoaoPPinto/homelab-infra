@@ -6,13 +6,12 @@
 
 - name: Template sites available
   template:
-    src: "{{ item.src }}"
-    dest: "/etc/nginx/sites-available/{{ item.dest }}"
+    src: "{{ item }}.j2"
+    dest: "/etc/nginx/sites-available/{{ item }}"
     owner: root
     mode: '0644'
     #validate: bash -c 'echo "events { worker_connections 2; } http { include %s; }" > /tmp/nginx.conf; nginx -T -c /tmp/nginx.conf; ec=$?; rm -f /tmp/nginx.conf; exit $ec'
-  loop:
-    - { src: "pihole.j2", dest: "pihole" }
+  loop: "{{ vhost_list }}" 
 
 - name: Create sites enabled symlinks
   file:
@@ -20,8 +19,7 @@
     dest: '/etc/nginx/sites-enabled/{{ item }}'
     owner: root
     state: link
-  loop:
-    - 'pihole'
+  loop: "{{ vhost_list }}"
 
 - name: Test NGINX configuration
   command: nginx -t
