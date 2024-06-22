@@ -1,0 +1,14 @@
+---
+minio_base_url: "https://dl.minio.io/server/minio/release/linux-amd64"
+
+minio_server_bin: /usr/local/bin/minio
+
+minio_server_envfile: /etc/default/minio
+
+minio_server_datadirs:
+  - /mnt/storage/minio
+
+minio_user: minio
+minio_group: minio
+minio_update: false
+minio_server_addr: ":9091"

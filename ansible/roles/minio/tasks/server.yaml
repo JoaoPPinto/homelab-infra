@@ -1,0 +1,34 @@
+---
+- name: Create Minio group
+  group:
+    name: "{{ minio_group }}"
+    state: present
+
+- name: Create Minio user
+  user:
+    name: "{{ minio_user }}"
+    group: "{{ minio_group }}"
+    system: "yes"
+    shell: "/usr/sbin/nologin"
+
+- name: Create the Minio data storage directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ minio_user }}"
+    group: "{{ minio_group }}"
+    mode: 0750
+  with_items: "{{ minio_server_datadirs }}"
+
+- name: Download latest MinIO release
+  get_url:
+    url: "{{ minio_base_url }}/minio"
+    dest: "{{ minio_server_bin }}"
+    owner: "root"
+    group: "root"
+    mode: 0755
+    checksum: "sha256:{{minio_base_url }}/minio.sha256sum"
+  notify: restart minio
+  when: minio_update
+
+

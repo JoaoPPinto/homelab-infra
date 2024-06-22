@@ -1,0 +1,24 @@
+- name: Create pihole group
+    group:
+      name: pihole
+      state: present
+
+- name: Create pihole user
+    user:
+      name: pihole
+      group: pihole
+      create_home: false
+      shell: /usr/sbin/nologin
+      state: present
+
+- name: Create /etc/pihole directory
+    file:
+      path: /etc/pihole
+      state: directory
+      owner: pihole
+      group: pihole
+      mode: '0775'
+
+- name: Template /etc/pihole/setupVars.conf
+    template:
+
