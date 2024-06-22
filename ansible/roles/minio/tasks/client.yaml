@@ -1,0 +1,9 @@
+---
+- name: Download the Minio client
+  get_url:
+    url: "{{ minio_client_url }}/mc"
+    dest: "{{ minio_client_bin }}"
+    owner: root
+    group: root
+    mode: 0755
+    checksum: "sha256:{{ lookup('url', minio_client_url + '/mc.sha256sum').split(' ')[0] }}"

@@ -1,0 +1,5 @@
+---
+- name: restart minio
+  service:
+    name: minio
+    state: restarted
