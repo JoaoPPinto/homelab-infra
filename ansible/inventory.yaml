@@ -7,3 +7,8 @@ raspberry:
       ansible_host: 192.168.1.13
       ansible_user: admin
 
+minio:
+  hosts:
+    minio:
+      ansible_host: 192.168.1.30
+      ansible_user: admin
