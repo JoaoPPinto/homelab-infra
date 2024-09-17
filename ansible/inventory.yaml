@@ -6,4 +6,8 @@ raspberry:
     zero:
       ansible_host: 192.168.1.13
       ansible_user: admin
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    adm_user: admin
+    expand_lvm_root: false
 
