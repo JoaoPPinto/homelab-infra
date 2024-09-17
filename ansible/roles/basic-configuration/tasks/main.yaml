@@ -1,9 +1,9 @@
 - name: Update authorized keys
   ansible.posix.authorized_key:
-    user: {{ adm_user }}
+    user: "{{ adm_user }}"
     state: present
-    key: {{ item }}
-  loop: {{ authorized_keys}}
+    key: "{{ item }}"
+  loop: "{{ authorized_keys}}"
 
 - name: Expand LVM to disk size
   become: true
